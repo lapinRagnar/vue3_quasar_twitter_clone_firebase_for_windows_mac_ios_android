@@ -24,6 +24,7 @@
       </q-toolbar>
     </q-header>
 
+    <!-- left drawer content -->
     <q-drawer
       show-if-above
       v-model="leftDrawerOpen"
@@ -31,7 +32,6 @@
       bordered
       :width="200"
     >
-      <!-- left drawer content -->
       <q-icon
         class="q-pa-md"
         name="fa-solid fa-dove"
@@ -77,8 +77,8 @@
       </q-list>
     </q-drawer>
 
+    <!-- right drawer content -->
     <q-drawer show-if-above v-model="rightDrawerOpen" side="right" bordered>
-      <!-- right drawer content -->
       <q-input
         class="q-ma-md"
         color="purple-12"
