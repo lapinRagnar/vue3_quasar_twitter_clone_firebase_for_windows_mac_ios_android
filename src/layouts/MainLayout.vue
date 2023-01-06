@@ -6,8 +6,20 @@
         <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title class="text-weight-bold">
-          Mon Twitter Clone avec Quasar
+          <span class="gt-sm">
+            Mon Twitter Clone avec Quasar
+          </span>
+
+          <q-icon
+            class="q-pa-md lt-md absolute-center "
+            name="fa-solid fa-dove"
+            size="sm"
+            color="white"
+          />
+
         </q-toolbar-title>
+
+
 
       </q-toolbar>
     </q-header>
@@ -17,7 +29,7 @@
       v-model="leftDrawerOpen"
       side="left"
       bordered
-      width="200"
+      :width="200"
     >
       <!-- left drawer content -->
       <q-icon
