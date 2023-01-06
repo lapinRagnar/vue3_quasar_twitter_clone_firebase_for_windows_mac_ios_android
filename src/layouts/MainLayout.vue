@@ -7,7 +7,7 @@
 
         <q-toolbar-title class="text-weight-bold">
           <span class="gt-sm">
-            Mon Twitter Clone avec Quasar
+            Mon Twitter Clone avec Quasar - {{ $route.name }}
           </span>
 
           <q-icon
