@@ -11,7 +11,7 @@
           </span>
 
           <q-icon
-            class="q-pa-md lt-md absolute-center "
+            class="q-pa-md lt-md header-icon "
             name="fa-solid fa-dove"
             size="sm"
             color="white"
@@ -168,3 +168,13 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  .header-icon {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+</style>
