@@ -44,6 +44,7 @@
           clickable
           v-ripple
           to="/"
+          exact
         >
           <q-item-section avatar>
             <q-icon
@@ -59,7 +60,8 @@
         <q-item
           clickable
           v-ripple
-          to="/about"
+          :to="{name: 'about'}"
+          exact
         >
           <q-item-section avatar>
             <q-icon
