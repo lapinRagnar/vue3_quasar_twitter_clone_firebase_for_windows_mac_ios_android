@@ -46,9 +46,13 @@
       color="grey-4"
     />
 
-    <q-list>
+    <q-list separator>
 
-      <q-item class="q-py-md">
+      <q-item
+        class="q-py-md"
+        v-for="(qweet, i) in qweets"
+        :key="i"
+      >
         <q-item-section avatar top>
           <q-avatar>
             <img src="https://cdn.quasar.dev/img/avatar2.jpg">
@@ -62,11 +66,7 @@
           </q-item-label>
           <q-item-label class="qweet-content text-body1">
             <span class="text-weight-bold">Janet</span>
-            -- I'll be in your neighborhood doing errands this
-            weekend. Do you want to grab brunch?
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-
-            Laboriosam eos provident enim quod molestias dolore perferendis consequuntur obcaecati quos alias, velit veritatis perspiciatis at aliquam suscipit nesciunt quidem tempora ad!
+            {{ qweet.content }}
           </q-item-label>
 
           <div class="row justify-between q-mt-sm qweet-icons">
@@ -107,7 +107,7 @@
         </q-item-section>
 
         <q-item-section side top>
-          1 min ago
+          {{ qweet.date }}
         </q-item-section>
       </q-item>
 
@@ -119,14 +119,31 @@
 
 <script>
 import { defineComponent } from 'vue'
+import { format } from 'timeago.js';
+import { formatDistance } from 'date-fns'
 
 export default defineComponent({
   name: 'PageHome',
   data() {
     return {
-      newTweetContent: ''
+      newTweetContent: '',
+      qweets: [
+        {
+          content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+          date: format(16732075302, 'us')
+        },
+        {
+          content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+          date: format(1673206111543)
+        },
+      ]
     }
-  }
+  },
+  // filters: {
+  //   relativeDate(value) {
+  //     return formatDistance(value, new Date())
+  //   }
+  // }
 })
 </script>
 
