@@ -95,6 +95,7 @@
               size="sm"
             />
             <q-btn
+              @click="deleteQtweet(qweet)"
               flat
               round
               color="grey"
@@ -104,6 +105,7 @@
 
 
           </div>
+
         </q-item-section>
 
         <q-item-section side top>
@@ -149,6 +151,13 @@ export default defineComponent({
       }
       this.qweets.unshift(newQweet)
       this.newTweetContent = ''
+    },
+    deleteQtweet(qweet) {
+      console.log('le qweet', qweet)
+      let dateToDelete = qweet.date
+      let index = this.qweets.findIndex(qweet => qweet.date === dateToDelete)
+      console.log('index', index)
+      this.qweets.splice(index, 1)
     }
   }
   // filters: {
