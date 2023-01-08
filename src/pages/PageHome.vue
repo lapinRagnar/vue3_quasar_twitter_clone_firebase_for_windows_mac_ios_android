@@ -27,6 +27,7 @@
 
       <div class="col col-shrink">
         <q-btn
+          @click="addNewQweet"
           class="q-mb-lg"
           unelevated
           rounded
@@ -102,7 +103,6 @@
             />
 
 
-
           </div>
         </q-item-section>
 
@@ -139,6 +139,18 @@ export default defineComponent({
       ]
     }
   },
+
+  methods: {
+    addNewQweet() {
+      console.log('addNewQweet')
+      let newQweet = {
+        content: this.newTweetContent,
+        date: Date.now()
+      }
+      this.qweets.unshift(newQweet)
+      this.newTweetContent = ''
+    }
+  }
   // filters: {
   //   relativeDate(value) {
   //     return formatDistance(value, new Date())
