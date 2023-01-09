@@ -1,4 +1,5 @@
 <template>
+
   <q-page>
 
     <div class="q-py-lg q-px-md row items-end q-col-gutter-lg">
@@ -47,73 +48,85 @@
       color="grey-4"
     />
 
+
+
     <q-list separator>
 
-      <q-item
+      <transition-group
+        appear
+        enter-active-class="animated zoomInUp slower"
+        leave-active-class="animated zoomOutDown slower"
+      >
+        <q-item
         class="q-py-md"
         v-for="(qweet, i) in qweets"
         :key="i"
-      >
-        <q-item-section avatar top>
-          <q-avatar>
-            <img src="https://cdn.quasar.dev/img/avatar2.jpg">
-          </q-avatar>
-        </q-item-section>
+        >
+          <q-item-section avatar top>
+            <q-avatar>
+              <img src="https://cdn.quasar.dev/img/avatar2.jpg">
+            </q-avatar>
+          </q-item-section>
 
-        <q-item-section>
-          <q-item-label class="text-subtitle1">
-            <strong>lapinRagnar</strong>
-            <span class="text-grey-7"> @lapinRagnar</span>
-          </q-item-label>
-          <q-item-label class="qweet-content text-body1">
-            <span class="text-weight-bold">Janet</span>
-            {{ qweet.content }}
-          </q-item-label>
+          <q-item-section>
+            <q-item-label class="text-subtitle1">
+              <strong>lapinRagnar</strong>
+              <span class="text-grey-7"> @lapinRagnar</span>
+            </q-item-label>
+            <q-item-label class="qweet-content text-body1">
+              <span class="text-weight-bold">Janet</span>
+              {{ qweet.content }}
+            </q-item-label>
 
-          <div class="row justify-between q-mt-sm qweet-icons">
-            <q-btn
-              flat
-              round
-              color="grey"
-              icon="fa-regular fa-comment"
-              size="sm"
-            />
+            <div class="row justify-between q-mt-sm qweet-icons">
 
-            <q-btn
-              flat
-              round
-              color="grey"
-              icon="fas fa-retweet"
-              size="sm"
-            />
+              <q-btn
+                flat
+                round
+                color="grey"
+                icon="fa-regular fa-comment"
+                size="sm"
+              />
 
-            <q-btn
-              flat
-              round
-              color="grey"
-              icon="far fa-heart"
-              size="sm"
-            />
-            <q-btn
-              @click="deleteQtweet(qweet)"
-              flat
-              round
-              color="grey"
-              icon="fas fa-trash"
-              size="sm"
-            />
+              <q-btn
+                flat
+                round
+                color="grey"
+                icon="fas fa-retweet"
+                size="sm"
+              />
+
+              <q-btn
+                flat
+                round
+                color="grey"
+                icon="far fa-heart"
+                size="sm"
+              />
+              <q-btn
+                @click="deleteQtweet(qweet)"
+                flat
+                round
+                color="grey"
+                icon="fas fa-trash"
+                size="sm"
+              />
 
 
-          </div>
+            </div>
 
-        </q-item-section>
+          </q-item-section>
 
-        <q-item-section side top>
-          {{ qweet.date }}
-        </q-item-section>
-      </q-item>
+          <q-item-section side top>
+            {{ qweet.date }}
+          </q-item-section>
+
+        </q-item>
+
+      </transition-group>
 
     </q-list>
+
 
 
   </q-page>
@@ -187,4 +200,6 @@ export default defineComponent({
   .qweet-icons {
     margin-left: -5px;
   }
+
+
 </style>
