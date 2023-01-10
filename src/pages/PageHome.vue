@@ -23,7 +23,6 @@
               </q-avatar>
             </template>
 
-
           </q-input>
 
         </div>
@@ -69,12 +68,13 @@
             </q-item-section>
 
             <q-item-section>
+
               <q-item-label class="text-subtitle1">
                 <strong>lapinRagnar</strong>
-                <span class="text-grey-7"> @lapinRagnar <br class="lt-md"> - {{ qweet.date }}</span>
+                <span class="text-grey-7"> @lapinRagnar <br class="lt-sm"> - {{ qweet.date}}</span>
               </q-item-label>
+
               <q-item-label class="qweet-content text-body1">
-                <span class="text-weight-bold">Janet</span>
                 {{ qweet.content }}
               </q-item-label>
 
@@ -131,23 +131,29 @@
 
 <script>
 import { defineComponent } from 'vue'
-import { format } from 'timeago.js';
-import { formatDistance } from 'date-fns'
+import db from '../boot/firebase'
+import { collection, query, onSnapshot, orderBy } from "firebase/firestore"
+
 
 export default defineComponent({
   name: 'PageHome',
+
+  setup() {
+    
+  },
+
   data() {
     return {
       newTweetContent: '',
       qweets: [
-        {
-          content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-          date: format(16732075302, 'us')
-        },
-        {
-          content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-          date: format(1673206111543)
-        },
+        // {
+        //   content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+        //   date: format(16732075302, 'us')
+        // },
+        // {
+        //   content: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+        //   date: format(1673206111543)
+        // },
       ]
     }
   },
@@ -169,13 +175,36 @@ export default defineComponent({
       console.log('index', index)
       this.qweets.splice(index, 1)
     }
+  },
+
+  filters: {
+
+  },
+
+  mounted() {
+
+    const q = query(collection(db, "qweets"), orderBy("date"))
+    onSnapshot(q, (snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+
+        let qweetChange = change.doc.data()
+
+        if (change.type === "added") {
+            console.log("New tweet: ", qweetChange)
+            this.qweets.unshift(qweetChange)
+        }
+        if (change.type === "modified") {
+            console.log("Modified tweet: ", qweetChange)
+        }
+        if (change.type === "removed") {
+            console.log("Removed tweet: ", qweetChange)
+        }
+      })
+    })
+
   }
-  // filters: {
-  //   relativeDate(value) {
-  //     return formatDistance(value, new Date())
-  //   }
-  // }
 })
+
 </script>
 
 <style lang="scss">
