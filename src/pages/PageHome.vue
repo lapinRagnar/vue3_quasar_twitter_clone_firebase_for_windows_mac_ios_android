@@ -2,7 +2,7 @@
 
   <q-page class="relative-position">
 
-    <q-scroll-area class="absolute fullscreen">
+    <q-scroll-area class="absolute full-width full-height">
 
       <div class="q-py-lg q-px-md row items-end q-col-gutter-lg">
 
