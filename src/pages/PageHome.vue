@@ -56,10 +56,11 @@
           enter-active-class="animated zoomInUp slower"
           leave-active-class="animated zoomOutDown slower"
         >
+        
           <q-item
           class="q-py-md"
-          v-for="(qweet, i) in qweets"
-          :key="i"
+          v-for="qweet in qweets"
+          :key="qweet.id"
           >
             <q-item-section avatar top>
               <q-avatar>
@@ -99,8 +100,9 @@
                 <q-btn
                   flat
                   round
-                  color="grey"
-                  icon="far fa-heart"
+                  @click="toggleLiked(qweet)"
+                  :color="qweet.liked ? 'pink' : 'grey'"
+                  :icon=" qweet.liked ? 'fas fa-heart' : 'far fa-heart' "
                   size="sm"
                 />
                 <q-btn
@@ -130,16 +132,19 @@
 </template>
 
 <script>
+
 import { defineComponent } from 'vue'
 import db from '../boot/firebase'
-import { collection, query, onSnapshot, orderBy } from "firebase/firestore"
+import { collection, query, onSnapshot, orderBy, doc, deleteDoc, addDoc } from "firebase/firestore"
+
+
 
 
 export default defineComponent({
   name: 'PageHome',
 
   setup() {
-    
+
   },
 
   data() {
@@ -159,23 +164,36 @@ export default defineComponent({
   },
 
   methods: {
-    addNewQweet() {
+
+    async addNewQweet() {
       console.log('addNewQweet')
       let newQweet = {
         content: this.newTweetContent,
-        date: Date.now()
+        date: Date.now(),
+        liked: false
       }
-      this.qweets.unshift(newQweet)
+      // this.qweets.unshift(newQweet)
+
+      const qweetRef = collection(db, 'qweets')
+
+      await addDoc(qweetRef, newQweet)
+
       this.newTweetContent = ''
     },
-    deleteQtweet(qweet) {
-      console.log('le qweet', qweet)
-      let dateToDelete = qweet.date
-      let index = this.qweets.findIndex(qweet => qweet.date === dateToDelete)
-      console.log('index', index)
-      this.qweets.splice(index, 1)
+
+    async deleteQtweet(qweet) {
+      // console.log('le qweet', qweet)
+      // let dateToDelete = qweet.date
+      // let index = this.qweets.findIndex(qweet => qweet.date === dateToDelete)
+      // console.log('index', index)
+      // this.qweets.splice(index, 1)
+
+
+      await deleteDoc(doc(db, 'qweets', qweet.id))
     }
   },
+
+
 
   filters: {
 
@@ -189,15 +207,21 @@ export default defineComponent({
 
         let qweetChange = change.doc.data()
 
+        qweetChange.id = change.doc.id
+
         if (change.type === "added") {
-            console.log("New tweet: ", qweetChange)
-            this.qweets.unshift(qweetChange)
+          console.log("New tweet: ", qweetChange)
+          this.qweets.unshift(qweetChange)
         }
         if (change.type === "modified") {
-            console.log("Modified tweet: ", qweetChange)
+          console.log("Modified tweet: ", qweetChange)
+          let index = this.qweets.findIndex(qweet => qweet.id === qweetChange.id)
+          Object.assign(this.qweets[index], qweetChange)
         }
         if (change.type === "removed") {
-            console.log("Removed tweet: ", qweetChange)
+          console.log("Removed tweet: ", qweetChange)
+          let index = this.qweets.findIndex(qweet => qweet.id === qweetChange.id)
+          this.qweets.splice(index, 1)
         }
       })
     })
