@@ -2,6 +2,9 @@
 
 twitter clone for training with quasar
 
+## link to visit the app
+https://qwitter-5f8d5.web.app
+
 ## Install the dependencies
 ```bash
 yarn
