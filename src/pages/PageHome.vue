@@ -56,7 +56,7 @@
           enter-active-class="animated zoomInUp slower"
           leave-active-class="animated zoomOutDown slower"
         >
-        
+
           <q-item
           class="q-py-md"
           v-for="qweet in qweets"
@@ -135,7 +135,7 @@
 
 import { defineComponent } from 'vue'
 import db from '../boot/firebase'
-import { collection, query, onSnapshot, orderBy, doc, deleteDoc, addDoc } from "firebase/firestore"
+import { collection, query, onSnapshot, orderBy, doc, deleteDoc, addDoc, updateDoc  } from "firebase/firestore"
 
 
 
@@ -190,6 +190,15 @@ export default defineComponent({
 
 
       await deleteDoc(doc(db, 'qweets', qweet.id))
+    },
+
+    async toggleLiked(qweet) {
+
+      const qweetRef = doc(db, "qweets", qweet.id);
+
+      await updateDoc(qweetRef, {
+        liked: !qweet.liked
+      })
     }
   },
 
